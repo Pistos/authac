@@ -42,7 +42,8 @@ class AuthenticationController < Ramaze::Controller
         if logged_in?
             @user = session[ :user ]
             %{
-                You're logged in as #{@user.username}.
+                You're logged in as #{@user.username}.<br />
+                <a href="#{AuthAC::ACCESS_BASE_URL}/restricted">Enter restricted area</a>
             }
         else
             %{

@@ -14,8 +14,9 @@ module AuthAC
             user = session[ :user ]
             if user
                 user.groups.each do |group|
-                    group.flags.each do |flag|
-                        flags[ flag ] = true
+                    group.group.flags.each do |flag|
+                        flags[ flag.flag.name ] = true
+                        $stderr.puts "has flag #{flag.flag.name}"
                     end
                 end
             end

@@ -1,12 +1,12 @@
 INSERT INTO users (
     username, encrypted_password
 ) VALUES (
-    'Pistos', 'foobar'
+    'Pistos', 'd033e22ae348aeb5660fc2140aec35850c4da997' -- 'admin'
 );
 INSERT INTO users (
     username, encrypted_password
 ) VALUES (
-    'manveru', 'barfoo'
+    'manveru', '8843d7f92416211de9ebb963ff4ce28125932878' -- 'foobar'
 );
 
 INSERT INTO flags (
