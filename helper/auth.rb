@@ -86,7 +86,7 @@ module AuthAC
         
         def logout
             session[ :user ] = nil
-            redirect_referer
+            #redirect_referer
         end
     end
 end

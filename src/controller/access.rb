@@ -15,7 +15,7 @@ class AccessController < Ramaze::Controller
     # have access to the given page/area.
     def denied
         %{
-            Access denied, suckah!
+            Access denied!
         }
     end
     

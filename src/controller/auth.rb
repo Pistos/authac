@@ -37,6 +37,10 @@ class AuthenticationController < Ramaze::Controller
         @user = session[ :user ]
     end
     
+    def logout
+        super
+    end
+    
     # Example page that shows the login state.
     def home
         if logged_in?
