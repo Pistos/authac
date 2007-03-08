@@ -1,0 +1,21 @@
+## Ramaze AuthAC Part ##
+
+
+### Demo ###
+
+To see AuthAC in action with example code, simply:
+
+1. Edit src/model.rb appropriately for your database.
+2. Run tables.sql on your database.
+3. Run sample-data.sql on your database.
+4. In your Ramaze application's main.rb: require 'part/auth-ac/auth-ac'
+   Be sure to require the auth-ac part *after* setting and loading Ramaze
+   configuration.  This allows the part to set its controller mapping
+   properly.
+5. Browse /auth .  For a development environment, this might be something
+   like: http://localhost:7000/auth
+
+
+
+### Customization ###
+
