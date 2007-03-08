@@ -29,6 +29,7 @@ class AccessController < Ramaze::Controller
             <h2>Admin</h2>
             
             <p>This is the secret admin page that has restricted access.</p>
+            <a href="#{AuthAC::AUTH_BASE_URL}/logout">logout</a>
             </body></html>
         }
     end

@@ -43,14 +43,7 @@ class AuthenticationController < Ramaze::Controller
     
     # Example page that shows the login state.
     def home
-        if logged_in?
-            @user = session[ :user ]
-        else
-            %{
-                You are not logged in.
-                <a href="#{AuthAC::AUTH_BASE_URL}/login">Login</a>
-            }
-        end
+        @user = session[ :user ]
     end
 end
 end
