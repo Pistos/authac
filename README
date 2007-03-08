@@ -21,7 +21,15 @@ directions, and then:
 1. Run sample-data.sql on your database.
 2. Browse /auth/register .  For a development environment, this might be something
    like: http://localhost:7000/auth
-
+3. Login with user/pass manveru/foobar for a user that doesn't have access to the
+   restricted area.  user/pass Pistos/admin can access the restricted area.
+4. Controller actions:
+    /auth/register
+    /auth/login
+    /auth/logout
+    /auth/home           # unrestricted example page
+    /access/restricted   # example page with access restrictions
+    /access/denied
 
 ### Customization ###
 

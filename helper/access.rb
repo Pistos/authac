@@ -23,6 +23,12 @@ module AuthAC
             flags
         end
         
+        # Accepts a list/array of flags (as Strings) needed for access.
+        # In the controller action, call requires_flags to restrict access.
+        # This will redirect to /access/denied if there is no user logged in,
+        # or if the user does not have the required_flags.
+        # If the user has the required_flags, no further action is taken,
+        # and processing continues in your controller action.
         def requires_flags( *required_flags )
             _user_flags = user_flags()
             required_flags.each do |flag|
