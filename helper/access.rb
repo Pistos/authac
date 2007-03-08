@@ -16,7 +16,6 @@ module AuthAC
                 user.groups.each do |group|
                     group.group.flags.each do |flag|
                         flags[ flag.flag.name ] = true
-                        $stderr.puts "has flag #{flag.flag.name}"
                     end
                 end
             end
