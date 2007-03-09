@@ -41,3 +41,8 @@ The material in template/ and src/controller/ are only examples.  Use them as
 a base to create your own custom templates and controllers.  The controller
 examples show how to use the helper methods to do authentication and access
 control.
+
+Use sql/tables.sql as a base for the minimum schema.  The users.realname field is
+an example of metadata.  It does not have bearing on either authentication or
+access control.  Add any additional metadata to the users table as per your
+needs.
