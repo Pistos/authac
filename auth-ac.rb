@@ -10,5 +10,5 @@ require 'part/auth-ac/helper/auth'
 require 'part/auth-ac/helper/access'
 
 # Example code:
-require 'part/auth-ac/src/controller/auth'
-require 'part/auth-ac/src/controller/access'
+#require 'part/auth-ac/src/controller/auth'
+#require 'part/auth-ac/src/controller/access'

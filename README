@@ -23,11 +23,12 @@ To see AuthAC in action with example code, follow the above Installation
 directions, and then:
 
 1. Run sample-data.sql on your database.
-2. Browse /auth/register .  For a development environment, this might be something
+2. Uncomment the example controllers in auth-ac.rb.
+3. Browse /auth/register .  For a development environment, this might be something
    like: http://localhost:7000/auth/register
-3. Login with user/pass manveru/foobar for a user that doesn't have access to the
+4. Login with user/pass manveru/foobar for a user that doesn't have access to the
    restricted area.  User/pass Pistos/admin can access the restricted area.
-4. Controller actions:
+5. Controller actions:
     /auth/register
     /auth/login
     /auth/logout
@@ -40,7 +41,8 @@ directions, and then:
 The material in template/ and src/controller/ are only examples.  Use them as
 a base to create your own custom templates and controllers.  The controller
 examples show how to use the helper methods to do authentication and access
-control.
+control.  Comment out the example controllers in auth-ac.rb once you begin
+using your own.
 
 Use sql/tables.sql as a base for the minimum schema.  The users.realname field is
 an example of metadata.  It does not have bearing on either authentication or
