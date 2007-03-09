@@ -1,8 +1,12 @@
 ## Ramaze AuthAC Part ##
 
+Version 0.5.0
+2007-03-09
 
 ### Installation ###
 
+0. Dependencies:
+   kansas 0.3.1  http://rubyforge.org/projects/kansas
 1. Copy conf/auth-ac.conf.sample to conf/auth-ac.conf.
 2. Edit conf/auth-ac.conf appropriately for your database and settings needs.
 3. Ensure the appropriate tables are in your database.  sql/tables.sql
