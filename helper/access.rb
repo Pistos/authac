@@ -1,7 +1,5 @@
 module AuthAC
     module Helper
-        helper :stack
-        
         def login_required
             if not logged_in?
                 call( R( self, :login ) )
