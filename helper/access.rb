@@ -1,5 +1,7 @@
 module AuthAC
     module Helper
+        helper :stack
+        
         def login_required
             if not logged_in?
                 call( R( self, :login ) )
@@ -32,7 +34,7 @@ module AuthAC
             _user_flags = user_flags()
             required_flags.each do |flag|
                 if not _user_flags[ flag ]
-                    redirect( R( AuthAC::AccessController, :denied ) )
+                    call( R( AuthAC::AccessController, :denied ) )
                 end
             end
         end
