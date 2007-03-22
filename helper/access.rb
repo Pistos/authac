@@ -22,6 +22,19 @@ module AuthAC
             flags
         end
         
+        def user_has_flags( *flags )
+            has_them = true
+            _user_flags = user_flags()
+            flags.each do |flag|
+                if not _user_flags[ flag ]
+                    has_them = false
+                    break
+                end
+            end
+            has_them
+        end
+        alias user_has_flag user_has_flags
+        
         # Accepts a list/array of flags (as Strings) needed for access.
         # In the controller action, call requires_flags to restrict access.
         # This will redirect to /access/denied if there is no user logged in,
@@ -29,11 +42,8 @@ module AuthAC
         # If the user has the required_flags, no further action is taken,
         # and processing continues in your controller action.
         def requires_flags( *required_flags )
-            _user_flags = user_flags()
-            required_flags.each do |flag|
-                if not _user_flags[ flag ]
-                    call( R( AuthAC::AccessController, :denied ) )
-                end
+            if not user_has_flags( *required_flags )
+                call( R( AuthAC::AccessController, :denied ) )
             end
         end
         alias requires_flag requires_flags
