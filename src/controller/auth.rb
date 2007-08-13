@@ -2,10 +2,14 @@ require 'digest/sha1'
 
 module AuthAC
 class AuthenticationController < Ramaze::Controller
+    # You can comment out these traits if you wish to change these things.
     trait :engine => Ramaze::Template::Ezamar
     trait :template_root => "part/auth-ac/template/auth"
     
+    map '/auth'
+    
     include Helper
+    helper :stack
     
     def index
         redirect( R( self, :login ) )
