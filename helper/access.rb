@@ -43,7 +43,7 @@ module AuthAC
         # and processing continues in your controller action.
         def requires_flags( *required_flags )
             if not user_has_flags( *required_flags )
-                call( R( AuthAC::AccessController, :denied ) )
+                call( "#{SITE_ROOT || ''}/access/denied" )
             end
         end
         alias requires_flag requires_flags
