@@ -1,14 +1,14 @@
 ## Ramaze AuthAC Part ##
 
-Version 0.5.0
-2007-03-09
+Version 0.5.1
+2007-12-03
 
 ### Installation ###
 
 0. Dependencies:
    kansas 0.3.1  http://rubyforge.org/projects/kansas
-1. Copy conf/auth-ac.conf.sample to conf/auth-ac.conf.
-2. Edit conf/auth-ac.conf appropriately for your database and settings needs.
+1. Copy auth-ac.conf.sample to path/to/your/app/auth-ac.conf.
+2. Edit auth-ac.conf appropriately for your database and settings needs.
 3. Ensure the appropriate tables are in your database.  sql/tables.sql
    can be run so as to have the minimum table structure needed.
 4. In your Ramaze application's main.rb: require 'part/auth-ac/auth-ac'
