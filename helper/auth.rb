@@ -38,7 +38,7 @@ module AuthAC
             
             new_user = nil
             begin
-                new_user = $dbh.new_object(
+                new_user = $kansas_dbh.new_object(
                     :Users,
                     {
                         :username => username,
@@ -75,7 +75,7 @@ module AuthAC
             end
             encrypted_password = encrypt( password )
             
-            user = $dbh.select( :Users ) { |user|
+            user = $kansas_dbh.select( :Users ) { |user|
                 ( user.username == username ) &
                 ( user.encrypted_password == encrypted_password )
             }[ 0 ]

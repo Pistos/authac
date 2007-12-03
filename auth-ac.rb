@@ -1,4 +1,5 @@
-conf_file = File.expand_path 'part/auth-ac/conf/auth-ac.conf'
+#conf_file = File.expand_path 'part/auth-ac/conf/auth-ac.conf'
+conf_file = File.expand_path "#{Dir.pwd}/auth-ac.conf"
 if File.exist?( conf_file )
     load conf_file
 else
