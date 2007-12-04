@@ -7,8 +7,8 @@ module AuthAC
     class UserExistsException < Exception; end
     class InvalidCredentialsException < Exception; end
     
-    VERSION = '0.5.0'
-    LAST_MODIFIED = '2007-03-09'
+    VERSION = '0.5.1'
+    LAST_MODIFIED = '2007-12-04'
     
     module Helper
         
