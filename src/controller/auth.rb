@@ -2,11 +2,7 @@ require 'digest/sha1'
 
 module AuthAC
 class AuthenticationController < Ramaze::Controller
-    # You can comment out these traits if you wish to change these things.
-    trait :engine => Ramaze::Template::Ezamar
-    trait :template_root => "part/auth-ac/template/auth"
-    
-    map '/auth'
+    map "/auth"
     
     include Helper
     helper :stack
@@ -16,21 +12,45 @@ class AuthenticationController < Ramaze::Controller
     end
     
     def register
-        begin
-            @new_user = super( [ 'realname' ] )  # call AuthAC::Helper::register
-        rescue MissingUsernameException => e
-            # do nothing
-        rescue PasswordLengthException => e
-            @error = e.message
-        rescue UserExistsException => e
-            @error = e.message
+        # Process POST, if any.
+        
+        if request.post?
+            begin
+                if request[ 'password' ] == request[ 'password2' ] and request[ 'username' ]
+                    request[ 'username' ] = request[ 'username' ].clean_username
+                    
+                    @new_user = super( [] )
+                    @new_user = $dbh.select( :Users ) { |u| u.username == @new_user.username }.first
+                    
+                    # Add to 'members' user group.
+                    
+                    $dbh.do(
+                        %{
+                            INSERT INTO users_groups (
+                                user_id, user_group_id
+                            ) VALUES (
+                                ( SELECT id FROM users WHERE username = ? ),
+                                ( SELECT id FROM user_groups WHERE name = 'members' )
+                            );
+                        },
+                        @new_user.username
+                    )
+                    
+                else
+                    @error = "Typed passwords do not match.  Please re-enter your password."
+                end
+            rescue MissingUsernameException => e
+                # do nothing
+            rescue PasswordLengthException, UserExistsException => e
+                @error = e.message
+            end
         end
     end
     
     def login
         begin
             super  # call AuthAC::Helper::login
-            redirect( R( self, :home ) )
+            redirect( '/' )
         rescue MissingUsernameException => e
             # do nothing
         rescue MissingPasswordException => e
@@ -49,8 +69,8 @@ class AuthenticationController < Ramaze::Controller
     def home
         @user = session[ :user ]
     end
+    
 end
 end
 
-Ramaze::Global.mapping[ AuthAC::AUTH_BASE_URL ] = AuthAC::AuthenticationController
 
