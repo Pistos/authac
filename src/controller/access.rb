@@ -2,11 +2,7 @@ require 'digest/sha1'
 
 module AuthAC
 class AccessController < Ramaze::Controller
-    # You can comment out these traits if you wish to change these things.
-    trait :engine => Ramaze::Template::Ezamar
-    trait :template_root => "part/auth-ac/template/access"
-    
-    map '/access'
+    map "/access"
     
     include Helper
     helper :stack
@@ -19,7 +15,10 @@ class AccessController < Ramaze::Controller
     # have access to the given page/area.
     def denied
         %{
-            Access denied!
+            <p>
+            Access denied!<br />
+            <a href="#{MainController::SITE_ROOT}/auth/login">Login</a>
+            </p>
         }
     end
     
@@ -33,12 +32,16 @@ class AccessController < Ramaze::Controller
             <h2>Admin</h2>
             
             <p>This is the secret admin page that has restricted access.</p>
-            <a href="#{AuthAC::AUTH_BASE_URL}/logout">logout</a>
+            <a href="#{MainController::SITE_ROOT}/#{AuthAC::AUTH_BASE_URL}/logout">logout</a>
             </body></html>
         }
     end
 end
 end
 
-Ramaze::Global.mapping[ AuthAC::ACCESS_BASE_URL ] = AuthAC::AccessController
+module AuthAC
+    module Helper
+        SITE_ROOT = MainController::SITE_ROOT
+    end
+end
 
