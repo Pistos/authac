@@ -35,6 +35,10 @@ module AuthAC
         end
         alias user_has_flag user_has_flags
         
+        def deny_access
+            call( "#{SITE_ROOT || ''}/access/denied" )
+        end
+        
         # Accepts a list/array of flags (as Strings) needed for access.
         # In the controller action, call requires_flags to restrict access.
         # This will redirect to /access/denied if there is no user logged in,
@@ -43,7 +47,7 @@ module AuthAC
         # and processing continues in your controller action.
         def requires_flags( *required_flags )
             if not user_has_flags( *required_flags )
-                call( "#{SITE_ROOT || ''}/access/denied" )
+                deny_access
             end
         end
         alias requires_flag requires_flags
