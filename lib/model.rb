@@ -1,27 +1,69 @@
-require 'kansas'
+require 'sequel'
 
-$kansas_dbh = KSDatabase.new(
-    "dbi:#{AuthAC::DB_VENDOR}:#{AuthAC::DB_NAME}:#{AuthAC::DB_HOST}",
-    AuthAC::DB_USER,
-    AuthAC::DB_PASSWORD
+$authac_dbh = Sequel(
+  "#{AuthAC.trait[ :db ][ :vendor ]}://#{AuthAC.trait[ :db ][ :user ]}:#{AuthAC.trait[ :db ][ :password ]}@#{AuthAC.trait[ :db ][ :host ]}/#{AuthAC.trait[ :db ][ :database ]}"
 )
 
-$kansas_dbh.table( :Users, :users )
-$kansas_dbh.table( :Flags, :flags )
-$kansas_dbh.table( :UserGroups,  :user_groups )
+class User < Sequel::Model( AuthAC.trait[ :tables ][ :users ] )
+  def groups
+    UserGroup.fetch(
+      %{
+        SELECT
+          g.*
+        FROM
+          #{AuthAC.trait[ :tables ][ :user_groups ]} g,
+          #{AuthAC.trait[ :tables ][ :users_groups ]} ug
+        WHERE
+          g.id = ug.group_id
+          AND ug.user_id = ?
+      },
+      pk
+    ).all
+  end
+  
+  def flags
+    groups.collect { |g| g.flags }.flatten
+  end
+  
+  def has_flags?( *fs )
+    my_flags = flags
+    fs.each do |f|
+      if not my_flags.find { |mf| mf.name == f }
+        return false
+      end
+    end
+    true
+  end
+  alias has_flag? has_flags?
+  
+end
 
-$kansas_dbh.table( :UserGroupsFlags, :user_groups_flags )
-KSDatabase::UserGroupsFlags.to_one( :user_group, :user_group_id, :UserGroups )
-KSDatabase::UserGroupsFlags.to_one( :group, :user_group_id, :UserGroups )
-KSDatabase::UserGroupsFlags.to_one( :flag, :flag_id, :Flags )
+class Flag < Sequel::Model( AuthAC.trait[ :tables ][ :flags ] )
+  def to_s
+    name
+  end
+end
 
-$kansas_dbh.table( :UsersGroups,  :users_groups )
-KSDatabase::UsersGroups.to_one( :user, :user_id, :Users )
-KSDatabase::UsersGroups.to_one( :user_group, :user_group_id, :UserGroups )
-KSDatabase::UsersGroups.to_one( :group, :user_group_id, :UserGroups )
-
-KSDatabase::UserGroups.to_many( :flags, :UserGroupsFlags, :user_group_id )
-KSDatabase::Users.to_many( :user_groups, :UsersGroups, :user_id )
-KSDatabase::Users.to_many( :groups, :UsersGroups, :user_id )
-KSDatabase::UserGroups.to_many( :users, :UsersGroups, :user_group_id )
+class UserGroup < Sequel::Model( AuthAC.trait[ :tables ][ :user_groups ] )
+  def flags
+    Flag.fetch(
+      %{
+        SELECT
+          f.*
+        FROM
+          #{AuthAC.trait[ :tables ][ :flags ]} f,
+          #{AuthAC.trait[ :tables ][ :user_group_flags ]} gf
+        WHERE
+          f.id = gf.flag_id
+          AND gf.user_group_id = ?
+      },
+      pk
+    )
+  end
+  
+  def users
+    User.fetch(
+    )
+  end
+end
 
