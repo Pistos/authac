@@ -15,7 +15,7 @@ Logged in as '#{@user.username}'.
 <?r else ?>
 <div>
 You have logged out.<br />
-<a href="#{AuthAC::AUTH_BASE_URL}/login">Login</a>
+<a href="#{AuthAC.trait[ :auth_base_path ]}/login">Login</a>
 </div>
 <?r end ?>
 

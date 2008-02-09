@@ -1,5 +1,7 @@
 require 'ramaze'
 require '../lib/auth-ac'  # change this to where the /lib/auth-ac.rb file is
+require 'auth'
+require 'access'
 
 class MainController < Ramaze::Controller
   def index

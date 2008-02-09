@@ -1,10 +1,9 @@
 require 'digest/sha1'
 
-module AuthAC
 class AuthenticationController < Ramaze::Controller
     map "/auth"
     
-    include Helper
+    include AuthAC
     helper :stack
     
     def index
@@ -49,7 +48,7 @@ class AuthenticationController < Ramaze::Controller
     
     def login
         begin
-            super  # call AuthAC::Helper::login
+            super( request[ :username ], request[ :password ] )  # call AuthAC::login
             redirect( '/' )
         rescue MissingUsernameException => e
             # do nothing
@@ -70,7 +69,6 @@ class AuthenticationController < Ramaze::Controller
         @user = session[ :user ]
     end
     
-end
 end
 
 

@@ -1,10 +1,9 @@
 require 'digest/sha1'
 
-module AuthAC
 class AccessController < Ramaze::Controller
     map "/access"
     
-    include Helper
+    include AuthAC
     helper :stack
     
     #def index
@@ -35,13 +34,6 @@ class AccessController < Ramaze::Controller
             <a href="#{MainController::SITE_ROOT}/#{AuthAC::AUTH_BASE_URL}/logout">logout</a>
             </body></html>
         }
-    end
-end
-end
-
-module AuthAC
-    module Helper
-        SITE_ROOT = MainController::SITE_ROOT
     end
 end
 
