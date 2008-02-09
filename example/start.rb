@@ -10,10 +10,10 @@ end
 Ramaze.start(
   :authac => {
     :db => {
-      :vendor => 'postgres',
+      :vendor => 'Pg',
       :user => 'authac',
       :password => 'authac',
-      :host => 'localhost',
+      :host => nil,
       :database => 'authac',
       #:tables => {
         #:users => 'users',

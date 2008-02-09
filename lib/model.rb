@@ -1,12 +1,19 @@
-require 'sequel'
+require 'm4dbi'
 
-$authac_dbh = Sequel(
-  "#{AuthAC.trait[ :db ][ :vendor ]}://#{AuthAC.trait[ :db ][ :user ]}:#{AuthAC.trait[ :db ][ :password ]}@#{AuthAC.trait[ :db ][ :host ]}/#{AuthAC.trait[ :db ][ :database ]}"
+connection_str = "DBI:#{AuthAC.trait[ :db ][ :vendor ]}:#{AuthAC.trait[ :db ][ :database ]}"
+h = AuthAC.trait[ :db ][ :host ]
+if h and not h.empty?
+  connection_str << "@#{AuthAC.trait[ :db ][ :host ]}"
+end
+$authac_dbh = DBI.connect(
+  connection_str,
+  AuthAC.trait[ :db ][ :user ],
+  AuthAC.trait[ :db ][ :password ]
 )
 
-class User < Sequel::Model( AuthAC.trait[ :tables ][ :users ] )
+class User < DBI::Model( AuthAC.trait[ :tables ][ :users ] )
   def groups
-    UserGroup.fetch(
+    UserGroup.s(
       %{
         SELECT
           g.*
@@ -26,7 +33,7 @@ class User < Sequel::Model( AuthAC.trait[ :tables ][ :users ] )
   end
   
   def has_flags?( *fs )
-    my_flags = flags
+    my_flags = flags.copy
     fs.each do |f|
       if not my_flags.find { |mf| mf.name == f }
         return false
@@ -38,15 +45,15 @@ class User < Sequel::Model( AuthAC.trait[ :tables ][ :users ] )
   
 end
 
-class Flag < Sequel::Model( AuthAC.trait[ :tables ][ :flags ] )
+class Flag < DBI::Model( AuthAC.trait[ :tables ][ :flags ] )
   def to_s
     name
   end
 end
 
-class UserGroup < Sequel::Model( AuthAC.trait[ :tables ][ :user_groups ] )
+class UserGroup < DBI::Model( AuthAC.trait[ :tables ][ :user_groups ] )
   def flags
-    Flag.fetch(
+    Flag.s(
       %{
         SELECT
           f.*
@@ -58,11 +65,6 @@ class UserGroup < Sequel::Model( AuthAC.trait[ :tables ][ :user_groups ] )
           AND gf.user_group_id = ?
       },
       pk
-    )
-  end
-  
-  def users
-    User.fetch(
     )
   end
 end

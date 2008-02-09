@@ -8,13 +8,13 @@ module AuthAC
   class InvalidCredentialsException < Exception; end
   
   VERSION = '0.6.0'
-  LAST_MODIFIED = '2008-01-30'
+  LAST_MODIFIED = '2008-02-08'
 
   # Override retrieve_user_record as appropriate for your ORM and modeller.
   # Input is a hash of :fieldname => value pairs. 
   # Output should be the user model instance of the matching user.
   def retrieve_user_record( fields )
-    User[ fields ]
+    User.where( fields )
   end
   
   # Override create_user_record as appropriate for your ORM and modeller.

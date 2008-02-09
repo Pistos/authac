@@ -17,6 +17,7 @@ task :rdoc => [:clean, :readme2html] do
   sh "rdoc #{(RDOC_OPTS + RDOC_FILES).join(' ')}"
 end
 
+# Stolen from Ramaze
 desc 'Run all specs'
 task 'spec' do
   non_verbose, non_fatal = ENV['non_verbose'], ENV['non_fatal']

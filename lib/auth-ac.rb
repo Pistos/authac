@@ -9,21 +9,17 @@ module AuthAC
     def Startup::startup( options = {} )
       # Default settings
       AuthAC.trait(
-        :db => {
-          :tables => {
-            :users => 'users',
-            :user_groups => 'user_groups',
-            :users_groups => 'users_groups',
-            :flags => 'flags',
-            :user_group_flags => 'user_group_flags',
-          },
+        :tables => {
+          :users => 'users',
+          :user_groups => 'user_groups',
+          :users_groups => 'users_groups',
+          :flags => 'flags',
+          :user_group_flags => 'user_group_flags',
         }
       )
       
       # Overrides given from user
-      AuthAC.trait.recursive_merge!( options )
-      
-      Ramaze::Inform.debug "AUTHAC: #{AuthAC.trait.pretty_inspect}"
+      AuthAC.trait.recursive_merge!( options[ :authac ] )
       
       load __DIR__/'model.rb'
     end
