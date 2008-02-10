@@ -4,7 +4,6 @@ class AuthenticationController < Ramaze::Controller
     map "/auth"
     
     include AuthAC
-    helper :stack
     
     def index
         redirect( R( self, :login ) )

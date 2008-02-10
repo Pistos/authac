@@ -7,12 +7,14 @@ class MainController < Ramaze::Controller
   # include the AuthAC module to get all the authentication and
   # access control functionality
   include AuthAC
-  helper :stack
   
   def member_home
     requires_flag 'membership'
-    
     @user = session[ :user ]
+  end
+  
+  def restricted
+    requires_flags 'see-admin'
   end
 end
 
