@@ -1,8 +1,0 @@
-<?r if logged_in? ?>
-    You're logged in as #{@user.username}.<br />
-    <a href="#{AuthAC.trait[ :access_base_path ]}/restricted">Enter restricted area</a><br />
-    <a href="#{AuthAC.trait[ :auth_base_path ]}/logout">Logout</a><br />
-<?r else ?>
-    You are not logged in.
-    <a href="#{AuthAC.trait[ :auth_base_path ]}/login">Login</a>
-<?r end ?>
