@@ -2,9 +2,12 @@ require __DIR__/'auth'
 require __DIR__/'access'
 require __DIR__/'hash'
 
+require 'ramaze/helper/stack'
 require 'pp'
 
 module AuthAC
+  include Ramaze::StackHelper
+  
   class Startup
     def Startup::startup( options = {} )
       # Default settings
