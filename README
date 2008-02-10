@@ -1,20 +1,14 @@
 ## Ramaze AuthAC Part ##
 
-Version 0.5.1
-2007-12-03
+Version 0.6.0
+2008-02-09
 
 ### Installation ###
 
 0. Dependencies:
-   kansas 0.3.1  http://rubyforge.org/projects/kansas
-1. Copy auth-ac.conf.sample to path/to/your/app/auth-ac.conf.
-2. Edit auth-ac.conf appropriately for your database and settings needs.
-3. Ensure the appropriate tables are in your database.  sql/tables.sql
-   can be run so as to have the minimum table structure needed.
-4. In your Ramaze application's main.rb: require 'part/auth-ac/auth-ac'
-   Be sure to require the auth-ac part *after* setting and loading Ramaze
-   configuration.  This allows the part to set its controller mapping
-   properly.
+   m4dbi  http://rome.purepistos.net/m4dbi/m4dbi-nightly.gem
+1. wget http://rome.purepistos.net/auth-ac/auth-ac-latest.gem
+2. gem install auth-ac-latest.gem
 
 
 ### Demo ###
@@ -22,27 +16,97 @@ Version 0.5.1
 To see AuthAC in action with example code, follow the above Installation
 directions, and then:
 
-1. Run sample-data.sql on your database.
-2. Uncomment the example controllers in auth-ac.rb.
-3. Browse /auth/register .  For a development environment, this might be something
-   like: http://localhost:7000/auth/register
-4. Login with user/pass manveru/foobar for a user that doesn't have access to the
-   restricted area.  User/pass Pistos/admin can access the restricted area.
-5. Controller actions:
-    /auth/register
-    /auth/login
-    /auth/logout
-    /auth/home           # unrestricted example page
-    /access/restricted   # example page with access restrictions
-    /access/denied
+1. Create an "authac" database user.  For Postgresql: createuser authac
+2. Create an "authac" database owned by "authac".  For Postgresql:
+   createdb -O authac authac
+3. Run tables.sql on the authac database to create the demo schema.
+   For Postgresql: cat tables.sql | psql -U authac authac
+4. Run sample-data.sql on the authac database.
+   For Postgresql: cat sample-data.sql | psql -U authac authac
+5. cd example
+6. ruby start.rb
+7. Browse to http://localhost:7000 .
+
+
+### Usage ###
+
+#### Setup ####
+
+In your Ramaze application:
+
+  require 'auth-ac'
+
+Before Ramaze.start:
+
+  AuthAC.options(
+    {
+      :db => {
+        :vendor => 'Pg',
+        :user => 'authac',
+        :password => 'authac',
+        :host => nil,
+        :database => 'authac',
+      },
+      # or more options
+      # see source code or example start.rb
+    }
+  )
+
+In each controller that will use AuthAC:
+  
+  include AuthAC
+  
+#### Authentication ####
+
+Register a new user with:
+
+  hash = {
+    :username => some_username,
+    :password => some_plaintext_password,
+    # Optionally:
+    :another_user_field => 'foo',
+  }
+  register( hash )
+  
+Log a user in with:
+
+  login( username, password )
+
+Check if a user is logged in with:
+
+  if logged_in?
+
+Logout the currently logged user (if any) with:
+
+  logout
+
+#### Access Control ####
+
+Use these commands at the top of your action methods where you need access control.
+
+For actions that require being logged in (regardless of user group or flags):
+
+  login_required
+
+For actions that require special access flags:
+
+  requires_flag 'some-access-flag'
+  # or
+  requires_flags 'some-access-flag', 'another flag'
+
+require_flag, require_flags, requires_flag and requires_flags are all synonymous.
+
 
 ### Customization ###
 
-The material in template/ and src/controller/ are only examples.  Use them as
-a base to create your own custom templates and controllers.  The controller
-examples show how to use the helper methods to do authentication and access
-control.  Comment out the example controllers in auth-ac.rb once you begin
-using your own.
+Use the example as a base to create your own custom templates and controllers.
+The controller examples show how to use the helper methods to do authentication
+and access control.  They also demonstrate how to wrap the basic authentication
+methods with your own to do more complicated processing over and above the
+base method.
+
+By default, access denial shows '/access/denied'.  Override the deny_access method
+to change this behaviour.
 
 Use sql/tables.sql as a base for the minimum schema.  The users.realname field is
 an example of metadata.  It does not have bearing on either authentication or
