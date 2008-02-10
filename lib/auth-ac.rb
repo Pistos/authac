@@ -10,6 +10,12 @@ module AuthAC
   
   class Startup
     def Startup::startup( options = {} )
+      load __DIR__/'model.rb'
+    end
+    
+  end
+  
+  def self.options( hash )
       # Default settings
       AuthAC.trait(
         :tables => {
@@ -24,11 +30,7 @@ module AuthAC
       )
       
       # Overrides given from user
-      AuthAC.trait.recursive_merge!( options[ :authac ] )
-      
-      load __DIR__/'model.rb'
-    end
-    
+      AuthAC.trait.recursive_merge!( hash )
   end
 end
 

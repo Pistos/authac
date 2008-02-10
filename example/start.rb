@@ -18,8 +18,8 @@ class MainController < Ramaze::Controller
   end
 end
 
-Ramaze.start(
-  :authac => {
+AuthAC.options(
+  {
     :db => {
       :vendor => 'Pg',
       :user => 'authac',
@@ -36,3 +36,5 @@ Ramaze.start(
     },
   }
 )
+
+Ramaze.start
