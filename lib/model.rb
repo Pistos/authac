@@ -21,11 +21,11 @@ class User < DBI::Model( AuthAC.trait[ :tables ][ :users ] )
           #{AuthAC.trait[ :tables ][ :user_groups ]} g,
           #{AuthAC.trait[ :tables ][ :users_groups ]} ug
         WHERE
-          g.id = ug.group_id
+          g.id = ug.user_group_id
           AND ug.user_id = ?
       },
       pk
-    ).all
+    )
   end
   
   def flags
@@ -33,7 +33,7 @@ class User < DBI::Model( AuthAC.trait[ :tables ][ :users ] )
   end
   
   def has_flags?( *fs )
-    my_flags = flags.copy
+    my_flags = flags
     fs.each do |f|
       if not my_flags.find { |mf| mf.name == f }
         return false
@@ -59,7 +59,7 @@ class UserGroup < DBI::Model( AuthAC.trait[ :tables ][ :user_groups ] )
           f.*
         FROM
           #{AuthAC.trait[ :tables ][ :flags ]} f,
-          #{AuthAC.trait[ :tables ][ :user_group_flags ]} gf
+          #{AuthAC.trait[ :tables ][ :user_groups_flags ]} gf
         WHERE
           f.id = gf.flag_id
           AND gf.user_group_id = ?

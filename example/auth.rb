@@ -16,14 +16,19 @@ class AuthenticationController < Ramaze::Controller
         if request.post?
             begin
                 if request[ 'password' ] == request[ 'password2' ] and request[ 'username' ]
-                    request[ 'username' ] = request[ 'username' ].clean_username
                     
-                    @new_user = super( [] )
-                    @new_user = $dbh.select( :Users ) { |u| u.username == @new_user.username }.first
+                    @new_user = super( # AuthAC::register
+                      {
+                        :username => request[ 'username' ],
+                        :password => request[ 'password' ],
+                        :realname => request[ 'realname' ],
+                      }
+                    )
+                    @new_user = User.where( :username => @new_user.username ).first
                     
                     # Add to 'members' user group.
                     
-                    $dbh.do(
+                    $authac_dbh.i(
                         %{
                             INSERT INTO users_groups (
                                 user_id, user_group_id
@@ -49,7 +54,8 @@ class AuthenticationController < Ramaze::Controller
     def login
         begin
             super( request[ :username ], request[ :password ] )  # call AuthAC::login
-            redirect( '/' )
+            answer if inside_stack?
+            redirect( R( MainController, "member_home" ) )
         rescue MissingUsernameException => e
             # do nothing
         rescue MissingPasswordException => e

@@ -4,8 +4,15 @@ require 'auth'
 require 'access'
 
 class MainController < Ramaze::Controller
-  def index
-    'AuthAC!'
+  # include the AuthAC module to get all the authentication and
+  # access control functionality
+  include AuthAC
+  helper :stack
+  
+  def member_home
+    requires_flag 'membership'
+    
+    @user = session[ :user ]
   end
 end
 
@@ -22,7 +29,7 @@ Ramaze.start(
         #:user_groups => 'user_groups',
         #:users_groups => 'users_groups',
         #:flags => 'flags',
-        #:user_group_flags => 'user_group_flags',
+        #:user_groups_flags => 'user_groups_flags',
       #}
     },
   }

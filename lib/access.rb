@@ -7,7 +7,7 @@ module AuthAC
   
   # Override if desired
   def deny_access
-    call( "#{SITE_ROOT || ''}/access/denied" )
+    call( "/access/denied" )
   end
   
   # Accepts a list/array of flags (as Strings) needed for access.

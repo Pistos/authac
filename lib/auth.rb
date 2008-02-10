@@ -14,7 +14,7 @@ module AuthAC
   # Input is a hash of :fieldname => value pairs. 
   # Output should be the user model instance of the matching user.
   def retrieve_user_record( fields )
-    User.where( fields )
+    User.where( fields ).first
   end
   
   # Override create_user_record as appropriate for your ORM and modeller.
@@ -31,6 +31,9 @@ module AuthAC
   end
   
   # Input is a hash containing at least :username and :password.
+  # This returns a new User object.
+  # Any extra processing, such as adding the member to certain groups
+  # automatically, will have to be done by you.  See example app.
   def register( fields )
     username = fields[ :username ]
     password = fields[ :password ]
@@ -45,6 +48,7 @@ module AuthAC
     #end
     
     fields[ :encrypted_password ] = encrypt( password )
+    fields.delete :password
       
     new_user = nil
     begin

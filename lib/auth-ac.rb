@@ -14,7 +14,7 @@ module AuthAC
           :user_groups => 'user_groups',
           :users_groups => 'users_groups',
           :flags => 'flags',
-          :user_group_flags => 'user_group_flags',
+          :user_groups_flags => 'user_groups_flags',
         },
         :auth_base_path => '/auth',
         :access_base_path => '/access'

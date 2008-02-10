@@ -12,6 +12,11 @@ INSERT INTO users (
 INSERT INTO flags (
     name, description
 ) VALUES (
+    'membership', 'Site membership (non-guest).'
+);
+INSERT INTO flags (
+    name, description
+) VALUES (
     'moderate', 'Ability to moderate things.'
 );
 INSERT INTO flags (
@@ -89,12 +94,24 @@ INSERT INTO user_groups_flags (
     ( SELECT id FROM user_groups WHERE name = 'moderators' ),
     ( SELECT id FROM flags WHERE name = 'submit-article' )
 );
+INSERT INTO user_groups_flags (
+    user_group_id, flag_id
+) VALUES (
+    ( SELECT id FROM user_groups WHERE name = 'moderators' ),
+    ( SELECT id FROM flags WHERE name = 'membership' )
+);
 
 INSERT INTO user_groups_flags (
     user_group_id, flag_id
 ) VALUES (
     ( SELECT id FROM user_groups WHERE name = 'members' ),
     ( SELECT id FROM flags WHERE name = 'submit-article' )
+);
+INSERT INTO user_groups_flags (
+    user_group_id, flag_id
+) VALUES (
+    ( SELECT id FROM user_groups WHERE name = 'members' ),
+    ( SELECT id FROM flags WHERE name = 'membership' )
 );
 
 INSERT INTO users_groups (
