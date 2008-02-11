@@ -1,7 +1,7 @@
 ## Ramaze AuthAC Part ##
 
 Version 0.6.0
-2008-02-09
+2008-02-10
 
 ### Installation ###
 
@@ -76,7 +76,7 @@ Check if a user is logged in with:
 
   if logged_in?
 
-Logout the currently logged user (if any) with:
+Logout the currently logged in user (if any) with:
 
   logout
 
@@ -103,7 +103,7 @@ Use the example as a base to create your own custom templates and controllers.
 The controller examples show how to use the helper methods to do authentication
 and access control.  They also demonstrate how to wrap the basic authentication
 methods with your own to do more complicated processing over and above the
-base method.
+base methods.
 
 By default, access denial shows '/access/denied'.  Override the deny_access method
 to change this behaviour.
