@@ -10,7 +10,7 @@ module AuthAC
   
   class Startup
     def Startup::startup( options = {} )
-      load __DIR__/'model-sequel'
+      load __DIR__/'model'
     end
     
   end

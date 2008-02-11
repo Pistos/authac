@@ -6,7 +6,9 @@ Version 0.6.0
 ### Installation ###
 
 0. Dependencies:
-   m4dbi  http://rome.purepistos.net/m4dbi/m4dbi-nightly.gem
+   Your choice of DB interface:
+   m4dbi   http://rome.purepistos.net/m4dbi/m4dbi-nightly.gem
+   sequel  gem install sequel
 1. wget http://rome.purepistos.net/auth-ac/auth-ac-latest.gem
 2. gem install auth-ac-latest.gem
 
@@ -112,3 +114,11 @@ Use sql/tables.sql as a base for the minimum schema.  The users.realname field i
 an example of metadata.  It does not have bearing on either authentication or
 access control.  Add any additional metadata to the users table as per your
 needs.
+
+To use Sequel as your ORM, in auth-ac/lib/auth-ac.rb, change:
+
+  load __DIR__/'model'
+
+to
+      
+  load __DIR__/'model-sequel'
