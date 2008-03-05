@@ -10,7 +10,7 @@ module AuthAC
   
   class Startup
     def Startup::startup( options = {} )
-      load __DIR__/'model'
+      load __DIR__/'model.rb'
     end
     
   end
