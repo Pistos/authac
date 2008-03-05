@@ -1,9 +1,11 @@
 module AuthAC
   def login_required
     if not logged_in?
-      call( Rs( :login ) )
+      call( R( AuthenticationController, :login ) )
     end
   end
+  alias require_login login_required
+  alias requires_login login_required
   
   # Override if desired
   def deny_access
