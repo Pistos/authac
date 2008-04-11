@@ -6,7 +6,7 @@ require 'ramaze/helper/stack'
 require 'pp'
 
 module AuthAC
-  include Ramaze::StackHelper
+  include Ramaze::Helper::Stack
   
   class Startup
     def Startup::startup( options = {} )

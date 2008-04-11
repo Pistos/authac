@@ -14,7 +14,7 @@ module AuthAC
   # Input is a hash of :fieldname => value pairs. 
   # Output should be the user model instance of the matching user.
   def retrieve_user_record( fields )
-    User.where( fields ).first
+    User.one_where( fields )
   end
   
   # Override create_user_record as appropriate for your ORM and modeller.
